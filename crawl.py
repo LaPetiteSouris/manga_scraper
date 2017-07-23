@@ -27,8 +27,8 @@ class MangaSpider(scrapy.Spider):
         return sum_img > 100
 
     def download(self, url):
-        bashCommand = "mkdir {manga_name}&&wget -k -p {url}".format(
-            manga_name=self.manga_name, url=url)
+        bashCommand = "wget -k {url} -p {path}".format(
+            path=self.manga_name, url=url)
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
 
@@ -39,6 +39,5 @@ class MangaSpider(scrapy.Spider):
         for link in links:
             url_to = link.url
             if self.shouldDownload(url_to):
-                print url_to
                 # Download
-                # self.download(url_to)
+                self.download(url_to)
